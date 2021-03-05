@@ -1,7 +1,40 @@
 const loading = document.querySelector('#loading');
 const cards = document.querySelector('.cards');
+const searchForm = document.querySelector('#searchForm');
+const searchInput = document.querySelector('#searchInput');
+const searchResultsDiv = document.querySelector('#searchResults');
+
+let randomDogs = [];
 
 loading.style.display = 'none';
+
+/*searchForm.addEventListener('submit', e => {
+    e.preventDefault();
+
+    const searchValue = searchInput.value;
+
+    if (searchValue != '') {
+        getSearchResults(searchValue);
+    } else {
+        //getRandomDogs();
+
+        createCards(randomDogs);
+    }
+});*/
+
+searchInput.addEventListener('input', async e => {
+    const searchValue = e.target.value;
+
+    if (searchValue != '') {
+        const data = await getSearchResults(searchValue);
+
+        createSearchResults(data);
+    } else {
+        //getRandomDogs();
+
+        createCards(randomDogs);
+    }
+});
 
 async function fetchDogs(url) {
     loading.style.display = '';
@@ -10,12 +43,13 @@ async function fetchDogs(url) {
 
     const data = await result.json();
 
-    createCards(data);
+    return data;
 }
 
 function createCards(dogs) {
     loading.style.display = 'none';
     cards.innerHTML = '';
+    searchResultsDiv.innerHTML = '';
 
     dogs.forEach(dog => {
         const breed = dog.breeds[0]?.name ? dog.breeds[0].name : 'No details';
@@ -53,4 +87,49 @@ function createCards(dogs) {
     });
 }
 
-fetchDogs('https://api.thedogapi.com/v1/images/search?limit=12');
+async function getSearchResults(value) {
+    const result = await fetch(`https://api.thedogapi.com/v1/breeds/search?q=${value}`);
+
+    const data = await result.json();
+
+    return data;
+}
+
+function createSearchResults(results) {
+    searchResultsDiv.innerHTML = '';
+
+    results.forEach(result => {
+        const resultDiv = document.createElement('div');
+        resultDiv.classList.add('search-result');
+
+        resultDiv.textContent = result.name;
+
+        resultDiv.addEventListener('click', async e => {
+            const dog = await fetchDogs(`https://api.thedogapi.com/v1/images/search?breed_id=${result.id}`);
+
+            createCards(dog);
+        });
+
+        searchResultsDiv.appendChild(resultDiv);
+    });
+}
+
+async function getRandomDogs() {
+    const dogs = await fetchDogs('https://api.thedogapi.com/v1/images/search?limit=12');
+
+    return dogs;
+}
+
+async function main() {
+    randomDogs = await getRandomDogs();
+
+    createCards(randomDogs);
+}
+
+main();
+
+/*async function getRandomDogs() {
+    const dogs = await fetchDogs('https://api.thedogapi.com/v1/images/search?limit=12');
+
+    createCards(dogs);
+}*/
