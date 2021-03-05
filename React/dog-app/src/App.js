@@ -7,7 +7,6 @@ import DogDetails from './components/DogDetails';
 function App() {
   const [dogs, setDogs] = useState([]);
   const [randomDogs, setRandomDogs] = useState([]);
-  const [searchValue, setSearchValue] = useState('');
 
   const fetchDogs = async (url) => {
       const result = await fetch(url);
@@ -35,7 +34,7 @@ function App() {
   return (
     <div className="container">
       <Header />
-      <SearchBar />
+      <SearchBar setDogs={setDogs} randomDogs={randomDogs} fetchDogs={fetchDogs} />
       <DogDetails dogs={dogs} />
     </div>
   );

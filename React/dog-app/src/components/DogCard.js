@@ -12,7 +12,7 @@ const DogCard = ({ dog }) => {
         <div className="card">
             <div className="card-inner">
                 <div className="card-front">
-                    <img src={imgSrc} />
+                    <img src={imgSrc} alt="Dog" />
                 </div>
 
                 <div className="card-back">
