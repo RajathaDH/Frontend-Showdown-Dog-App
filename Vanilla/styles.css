@@ -29,8 +29,7 @@ body {
 
 .search div {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: center;
 }
 
 .search-bar {
@@ -39,4 +38,28 @@ body {
     padding: 10px;
     border-radius: 10px;
     outline: none;
+    margin: 0 10px;
+}
+
+.btn-search {
+    width: 10%;
+    font-size: 20px;
+    border-radius: 10px;
+    border: 2px solid black;
+    outline: none;
+    background: rgba(48, 233, 48, 0.664);
+    color: white;
+    cursor: pointer;
+}
+
+.loading {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 40px auto;
+}
+
+.loading img {
+    width: 40%;
 }
