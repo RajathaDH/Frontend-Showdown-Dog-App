@@ -1,9 +1,17 @@
 <script>
     import DogCard from './DogCard.svelte';
+
+    export let dogs;
+
+    console.log(dogs);
 </script>
 
 <main class="main">
-    <div class="cards"></div>
+    <div class="cards">
+        {#each dogs as dog}
+            <DogCard dog={dog} />
+        {/each}
+    </div>
 </main>
 
 <style>
