@@ -1,12 +1,35 @@
+<script>
+    let searchValue;
+    let searchResults = [];
+
+    const getSearchResults = async (value) => {
+        const result = await fetch(`https://api.thedogapi.com/v1/breeds/search?q=${value}`);
+
+        const data = await result.json();
+      
+        searchResults = data;
+    }
+</script>
+
 <div class="search">
     <form id="searchForm">
         <div class="search-bar">
-            <input type="text" id="searchInput" class="search-input" autocomplete="off">
+            <input
+                type="text"
+                id="searchInput"
+                class="search-input"
+                bind:value={searchValue}
+                on:input={() => getSearchResults(searchValue)}
+                autocomplete="off">
             <button type="submit" class="btn-search">Woof</button>
         </div>
     </form>
 
-    <div id="searchResults" class="search-results"></div>
+    <div id="searchResults" class="search-results">
+        {#each searchResults as result}
+            <div class="search-result">{result.name}</div>
+        {/each}
+    </div>
 </div>
 
 <style>

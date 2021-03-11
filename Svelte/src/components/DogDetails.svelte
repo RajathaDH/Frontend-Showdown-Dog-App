@@ -2,8 +2,6 @@
     import DogCard from './DogCard.svelte';
 
     export let dogs;
-
-    console.log(dogs);
 </script>
 
 <main class="main">
